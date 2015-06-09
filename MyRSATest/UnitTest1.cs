@@ -45,9 +45,23 @@ namespace MyRSATest
             string testString = "Happy Birthday";
             MyRSA.RSA myRsa = new MyRSA.RSA();
             myRsa.keyGen(512, 65537);
-            string enc = myRsa.encode(testString, 65537);
+            string enc = myRsa.encode(testString, 65537, myRsa.getRSAModule());
             BigInteger privKey = myRsa.getPrivateKey();
-            string dec = myRsa.decode(enc, privKey);
+            string dec = myRsa.decode(enc, privKey, myRsa.getRSAModule());
+            Assert.AreEqual(testString, dec);
+        }
+
+        [TestMethod]
+        public void TestCommunication()
+        {
+            string testString = "Happy Birthday";
+            MyRSA.RSA myRsa1 = new MyRSA.RSA();
+            myRsa1.keyGen(512, 65537);
+            MyRSA.RSA myRsa2 = new MyRSA.RSA();
+            myRsa2.keyGen(512, 65537);
+            string encFrom1 = myRsa1.encode(testString, 65537, myRsa2.getRSAModule());
+            BigInteger privKey2 = myRsa2.getPrivateKey();
+            string dec = myRsa2.decode(encFrom1, privKey2, myRsa2.getRSAModule());
             Assert.AreEqual(testString, dec);
         }
 
