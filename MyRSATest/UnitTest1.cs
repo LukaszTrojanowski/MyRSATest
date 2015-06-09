@@ -38,17 +38,18 @@ namespace MyRSATest
             string stringFromBytes = MyRSA.Utils.GetString(testBytes);
             Assert.IsTrue(testString == stringFromBytes, "test string has value: " + testString + " from bytes has value: " + stringFromBytes);
         }
-
+        
         [TestMethod]
         public void TestEncDec()
         {
             string testString = "Happy Birthday";
             MyRSA.RSA myRsa = new MyRSA.RSA();
             myRsa.keyGen(512, 65537);
-            String enc = myRsa.encode(testString, 65537, true);
+            string enc = myRsa.encode(testString, 65537);
             BigInteger privKey = myRsa.getPrivateKey();
-            String dec = myRsa.decode(enc, privKey, true);
-            Assert.IsTrue(testString == dec, "test string has value: " + testString + " decoded string has value: " + dec);
+            string dec = myRsa.decode(enc, privKey);
+            Assert.AreEqual(testString, dec);
         }
+
     }
 }
